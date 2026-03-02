@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Papelillo — Property Management Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F0E0C;--bg2:#1A1814;--bg3:#211F1A;--gold:#C9A96E;--gd:#8A7549;--t1:#EDEAE4;--t2:#A09888;--t3:#6B6358;--dv:#2A2620}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
+body{background:var(--bg);color:var(--t1);font-family:'Outfit',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+
+/* Slides */
+.s{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;padding:6vh 8vw;position:relative}
+.sl{font-size:11px;font-weight:600;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+.st{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4.5vw,54px);font-weight:300;line-height:1.15;max-width:800px;margin-bottom:20px}
+.ss{font-size:17px;color:var(--t2);max-width:600px;line-height:1.6}
+.gl{width:60px;height:1.5px;background:var(--gold);margin-bottom:24px}
+.dv{width:100%;height:1px;background:var(--dv);margin:30px 0}
+
+/* Nav dots */
+.nd{position:fixed;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:100}
+.nd button{width:8px;height:8px;border-radius:50%;background:var(--t3);cursor:pointer;transition:all .3s;border:none;padding:0}
+.nd button.a{background:var(--gold);box-shadow:0 0 10px rgba(201,169,110,.4);transform:scale(1.3)}
+.nd button:hover{background:var(--gd);transform:scale(1.2)}
+
+/* Title meta */
+.tm{display:flex;justify-content:space-between;margin-top:50px;padding-top:22px;border-top:1px solid var(--dv);font-size:13px;color:var(--t3)}
+.tm span{display:block;margin-top:3px}
+.tm .r{text-align:right}
+
+/* Grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:12px}
+.g3r{display:grid;grid-template-columns:1fr 1fr .8fr;gap:22px;margin-top:12px}
+
+/* Cards */
+.c{background:var(--bg2);border:1px solid var(--dv);border-radius:4px;padding:26px 22px;transition:all .3s}
+.c:hover{background:var(--bg3);border-color:var(--gd);transform:translateY(-2px)}
+.cl{font-size:10px;font-weight:600;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.cd{width:40px;height:1px;background:var(--gd);margin:12px 0}
+.cb{font-size:14px;line-height:1.65;color:var(--t2)}
+
+/* Phase cards */
+.pc{background:var(--bg2);border:1px solid var(--dv);border-radius:4px;padding:34px 30px;transition:all .3s}
+.pc:hover{border-color:var(--gd)}
+.pn{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:4px}
+.pp{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--t1);margin-bottom:4px}
+.pd2{font-size:13px;color:var(--t3);margin-bottom:18px}
+.pf{padding:14px 0;border-top:1px solid var(--dv);border-bottom:1px solid var(--dv);margin-bottom:14px}
+.pf .a2{font-size:16px;font-weight:500;color:var(--t1)}
+.pf .b2{font-size:15px;font-weight:500;color:var(--gold);margin-top:4px}
+.pf2{font-size:13px;color:var(--t3);line-height:1.5}
+
+/* Deliverables */
+.dn2{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--gold);margin-bottom:8px}
+.dt{font-size:11px;font-weight:600;letter-spacing:2px;color:var(--t1);text-transform:uppercase;margin-bottom:8px}
+.dl{width:28px;height:1px;background:var(--gold);margin-bottom:10px}
+.db{font-size:13px;line-height:1.6;color:var(--t2)}
+
+/* Team cards */
+.tc{background:var(--bg2);border:1px solid var(--dv);border-radius:4px;padding:26px 22px;transition:all .3s}
+.tc:hover{border-color:var(--gd);background:var(--bg3)}
+.tn{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--gold);margin-bottom:4px}
+.tr{font-size:12px;color:var(--t3);margin-bottom:14px}
+.tl{list-style:none;padding:0}
+.tl li{font-size:13px;color:var(--t2);padding:4px 0 4px 16px;position:relative;line-height:1.5}
+.tl li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:1px;background:var(--gd)}
+
+/* Revenue */
+.rc{background:var(--bg2);border:1px solid var(--dv);border-radius:4px;padding:26px 22px;text-align:center;transition:all .3s}
+.rc:hover{border-color:var(--gd)}
+.rl{font-size:10px;font-weight:600;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.ra{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--t1);margin-bottom:4px}
+.ra.go{color:var(--gold);font-size:36px}
+.rd{font-size:13px;color:var(--t3);line-height:1.5}
+.rn{background:var(--bg2);border:1px solid var(--dv);border-radius:4px;padding:18px 22px;margin-top:22px;grid-column:1/-1}
+
+/* Advantages */
+.ar{display:grid;grid-template-columns:200px 1fr;gap:20px;padding:18px 0;border-bottom:1px solid var(--dv)}
+.ar:last-child{border-bottom:none}
+.al{font-size:11px;font-weight:600;letter-spacing:2px;color:var(--gold);text-transform:uppercase;padding-top:2px}
+.at{font-size:14px;color:var(--t2);line-height:1.6}
+
+/* Timeline */
+.tl3{position:relative;padding-left:180px;margin-top:16px}
+.tl3::before{content:'';position:absolute;left:162px;top:6px;bottom:6px;width:1.5px;background:linear-gradient(to bottom,var(--gold),var(--gd))}
+.ti{position:relative;padding:0 0 32px 36px}
+.ti:last-child{padding-bottom:0}
+.ti::before{content:'';position:absolute;left:-5px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px rgba(201,169,110,.3)}
+.tp{position:absolute;left:-180px;top:0;width:140px;text-align:right;font-size:12px;font-weight:600;letter-spacing:1px;color:var(--t3)}
+.tt2{font-size:14px;font-weight:500;color:var(--gold);margin-bottom:3px}
+.td2{font-size:13px;color:var(--t2);line-height:1.5}
+
+/* Discussion */
+.di{display:grid;grid-template-columns:36px 220px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--dv)}
+.di:last-child{border-bottom:none}
+.din{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold)}
+.dit{font-size:14px;font-weight:500;color:var(--t1)}
+.did{font-size:13px;color:var(--t2);line-height:1.5}
+
+/* Closing */
+.cc{margin-top:36px;padding-top:22px;border-top:1px solid var(--dv)}
+.cc .n{font-size:16px;font-weight:500}
+.cc .e{font-size:13px;color:var(--t3);margin-top:4px}
+
+/* Animations */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+.rv.v{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* Ambient glow on title */
+.s:first-child::before{content:'';position:absolute;top:-20%;right:-5%;width:500px;height:500px;background:radial-gradient(circle,rgba(201,169,110,.04) 0%,transparent 70%);pointer-events:none}
+
+/* Responsive */
+@media(max-width:900px){
+  .s{padding:5vh 6vw}
+  .g2,.g3,.g4,.g3r{grid-template-columns:1fr}
+  .nd{display:none}
+  .tl3{padding-left:28px}
+  .tl3::before{left:6px}
+  .tp{position:relative;left:0;text-align:left;width:auto;margin-bottom:3px}
+  .ti{padding-left:28px}
+  .di{grid-template-columns:28px 1fr}
+  .did{grid-column:1/-1}
+  .ar{grid-template-columns:1fr;gap:6px}
+  .tm{flex-direction:column;gap:10px}
+  .tm .r{text-align:left}
+}
+
+@media print{
+  html{scroll-snap-type:none}
+  .s{min-height:auto;page-break-after:always;padding:40px}
+  .nd{display:none}
+  .rv{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nd" id="nv"></nav>
+
+<!-- SLIDE 1: TITLE -->
+<section class="s" id="s0">
+<div>
+  <div class="gl"></div>
+  <div class="sl">Casa Papelillo</div>
+  <h1 class="st">Property Management<br>Proposal</h1>
+  <p class="ss">A structured approach to delivering a world-class guest experience on the Costalegre.</p>
+  <div class="tm">
+    <div><span>Prepared by Diego</span><span>March 2026</span></div>
+    <div class="r"><span>Prepared for Sophie & Family</span><span>Chamela, Jalisco — México</span></div>
+  </div>
+</div>
+</section>
+
+<!-- SLIDE 2: OPPORTUNITY -->
+<section class="s" id="s1">
+<div>
+  <div class="sl">The Opportunity</div>
+  <h2 class="st">Casa Papelillo deserves a management partner, not just a service provider.</h2>
+  <div class="dv"></div>
+  <div class="g3">
+    <div class="c rv">
+      <div class="cl">Marketing</div><div class="cd"></div>
+      <div class="cb">Full presence on Airbnb, Booking.com, and luxury travel networks near Careyes. Strategic pricing across high and low seasons to maximize revenue and occupancy.</div>
+    </div>
+    <div class="c rv d1">
+      <div class="cl">Guest Experience</div><div class="cd"></div>
+      <div class="cb">End-to-end communication from first inquiry to 5-star review. Activities, dining, transfers — every detail handled seamlessly for every guest.</div>
+    </div>
+    <div class="c rv d2">
+      <div class="cl">Operations</div><div class="cd"></div>
+      <div class="cb">On-site staff coordination, quality control, and procurement of additional personnel for larger groups. The property is always guest-ready.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SLIDE 3: PHASED APPROACH -->
+<section class="s" id="s2">
+<div>
+  <div class="sl">Proposed Approach</div>
+  <h2 class="st">A two-phase transition designed to protect both parties.</h2>
+  <div class="dv"></div>
+  <div class="g2">
+    <div class="pc rv">
+      <div class="pn">01</div>
+      <div class="pp">Launch & Ramp-Up</div>
+      <div class="pd2">June — November 2026</div>
+      <div class="pf">
+        <div class="a2">$1,000 USD / month retainer</div>
+        <div class="b2">+ 15% commission on gross rental income</div>
+      </div>
+      <div class="pf2">Covers platform setup, team building, operational infrastructure, and the investment required to bring Casa Papelillo to market properly.</div>
+    </div>
+    <div class="pc rv d1">
+      <div class="pn">02</div>
+      <div class="pp">Full Operation</div>
+      <div class="pd2">December 2026 onward</div>
+      <div class="pf">
+        <div class="a2">20% commission</div>
+        <div class="b2">on gross rental income — no retainer</div>
+      </div>
+      <div class="pf2">Fully aligned incentives. We earn more only when Casa Papelillo earns more. The team is proven, the systems are running, the reviews are building.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SLIDE 4: PHASE 1 DETAIL -->
+<section class="s" id="s3">
+<div>
+  <div class="sl">Phase 1 — Launch & Ramp-Up</div>
+  <h2 class="st">Building the foundation for a premium rental operation.</h2>
+  <div class="dv"></div>
+  <div class="g4">
+    <div class="rv">
+      <div class="dn2">01</div><div class="dt">Platform Setup</div><div class="dl"></div>
+      <div class="db">Airbnb, Booking.com, and direct booking channels fully configured with professional copy, photography direction, and revenue-optimized pricing.</div>
+    </div>
+    <div class="rv d1">
+      <div class="dn2">02</div><div class="dt">Guest Systems</div><div class="dl"></div>
+      <div class="db">End-to-end communication workflows, automated and personal touchpoints, pre-arrival coordination, and post-stay review management.</div>
+    </div>
+    <div class="rv d2">
+      <div class="dn2">03</div><div class="dt">Staff & Operations</div><div class="dl"></div>
+      <div class="db">On-site team recruitment and training. Operational playbook for housekeeping, maintenance, arrivals, and turnover between stays.</div>
+    </div>
+    <div class="rv d3">
+      <div class="dn2">04</div><div class="dt">Experience Curation</div><div class="dl"></div>
+      <div class="db">Curated guest experiences: beach bonfires, private dining, boat rentals, transfers from PVR & MZT. Local supplier network established.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SLIDE 5: TEAM -->
+<section class="s" id="s4">
+<div>
+  <div class="sl">Team Structure</div>
+  <h2 class="st">A lean, dedicated team built around Casa Papelillo.</h2>
+  <div class="dv"></div>
+  <div class="g3">
+    <div class="tc rv">
+      <div class="tn">Diego</div><div class="tr">Strategy & Oversight</div><div class="cd"></div>
+      <ul class="tl">
+        <li>Marketing strategy & pricing optimization</li>
+        <li>Quality control & brand standards</li>
+        <li>Direct relationship with ownership</li>
+        <li>Remote management with European market access</li>
+      </ul>
+    </div>
+    <div class="tc rv d1">
+      <div class="tn">Local Coordinator</div><div class="tr">On-the-Ground Operations</div><div class="cd"></div>
+      <ul class="tl">
+        <li>Property readiness & inspections</li>
+        <li>Guest arrivals & departures</li>
+        <li>Staff supervision (Yenci + team)</li>
+        <li>Real-time issue resolution</li>
+        <li>Based near Chamela / Careyes</li>
+      </ul>
+    </div>
+    <div class="tc rv d2">
+      <div class="tn">Guest Assistant</div><div class="tr">Communications & Booking</div><div class="cd"></div>
+      <ul class="tl">
+        <li>Inquiry response across all platforms</li>
+        <li>Pre-arrival coordination & requests</li>
+        <li>Activity & dining reservations</li>
+        <li>Post-stay follow-up & reviews</li>
+        <li>Bilingual, multi-timezone coverage</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SLIDE 6: REVENUE -->
+<section class="s" id="s5">
+<div>
+  <div class="sl">Revenue Outlook</div>
+  <h2 class="st">Estimated annual rental income based on moderate occupancy.</h2>
+  <div class="dv"></div>
+  <div class="g3r">
+    <div class="rc rv">
+      <div class="rl">High Season</div>
+      <div class="ra">$3,300</div>
+      <div class="rd">per night · ~50 nights (Dec–Apr)</div>
+      <div class="cd" style="margin:10px auto"></div>
+      <div class="rd"><strong style="color:var(--t1)">Est. $165,000</strong></div>
+    </div>
+    <div class="rc rv d1">
+      <div class="rl">Low Season</div>
+      <div class="ra">$1,897</div>
+      <div class="rd">per night · ~65 nights (May–Nov)</div>
+      <div class="cd" style="margin:10px auto"></div>
+      <div class="rd"><strong style="color:var(--t1)">Est. $123,337</strong></div>
+    </div>
+    <div class="rc rv d2">
+      <div class="rl">Annual Total</div>
+      <div class="ra go">$288K+</div>
+      <div class="rd">~115 nights / year</div>
+      <div class="cd" style="margin:10px auto"></div>
+      <div class="rd" style="color:var(--gold)">+ ancillary revenue</div>
+    </div>
+    <div class="rn rv d3">
+      <div class="cl">Additional Revenue Streams</div>
+      <div class="cb">Meal plans ($63/adult, $34/child per day), private transfers from Manzanillo and Puerto Vallarta, curated experiences (beach bonfires, boat rentals, romantic setups), and event coordination represent meaningful supplemental income beyond nightly rates.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SLIDE 7: WHY THIS WORKS -->
+<section class="s" id="s6">
+<div>
+  <div class="sl">Why This Partnership Works</div>
+  <h2 class="st">Aligned incentives, local expertise, and international reach.</h2>
+  <div class="dv"></div>
+  <div class="rv">
+    <div class="ar"><div class="al">Aligned Incentives</div><div class="at">The commission model ensures full investment in maximizing occupancy and guest satisfaction. When Casa Papelillo thrives, we both benefit.</div></div>
+    <div class="ar"><div class="al">Existing Relationship</div><div class="at">We've already built a working relationship through digital services and the advertising campaign. This is a natural evolution, not a cold start.</div></div>
+    <div class="ar"><div class="al">European Market Access</div><div class="at">Direct access to the luxury European travel market during the ramp-up phase — particularly the French and Italian clientele drawn to Careyes.</div></div>
+    <div class="ar"><div class="al">Careyes Proximity</div><div class="at">Located near one of Mexico's most prestigious coastal destinations. Our marketing and positioning will leverage this association strategically.</div></div>
+  </div>
+</div>
+</section>
+
+<!-- SLIDE 8: TIMELINE -->
+<section class="s" id="s7">
+<div>
+  <div class="sl">Timeline</div>
+  <h2 class="st">From setup to full operation in clear, measurable stages.</h2>
+  <div class="dv"></div>
+  <div class="tl3 rv">
+    <div class="ti">
+      <div class="tp">MAR – MAY</div>
+      <div class="tt2">Preparation</div>
+      <div class="td2">Confirm local coordinator, set up platforms, photography direction, pricing strategy, virtual assistant hiring.</div>
+    </div>
+    <div class="ti">
+      <div class="tp">JUNE</div>
+      <div class="tt2">Soft Launch</div>
+      <div class="td2">Property goes live. First bookings accepted. Staff onboarding. All systems tested with real guests.</div>
+    </div>
+    <div class="ti">
+      <div class="tp">JUL – NOV</div>
+      <div class="tt2">Ramp-Up</div>
+      <div class="td2">Optimize listings based on data. Build review base. Refine operations. Grow local supplier network and partnerships.</div>
+    </div>
+    <div class="ti">
+      <div class="tp">DECEMBER</div>
+      <div class="tt2">Full Operation</div>
+      <div class="td2">Transition to Phase 2 commission model. High season begins. Team fully operational and proven.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SLIDE 9: DISCUSSION POINTS -->
+<section class="s" id="s8">
+<div>
+  <div class="sl">For Discussion</div>
+  <h2 class="st">Key points to align on before we begin.</h2>
+  <div class="dv"></div>
+  <div class="rv">
+    <div class="di"><div class="din">01</div><div class="dit">Commission Structure</div><div class="did">Confirm percentages and transition timing between Phase 1 and Phase 2.</div></div>
+    <div class="di"><div class="din">02</div><div class="dit">Property Completion</div><div class="did">Align on June readiness date and any dependencies for the rental launch.</div></div>
+    <div class="di"><div class="din">03</div><div class="dit">Guest Experience Standards</div><div class="did">Define the service level expectations and brand positioning for Casa Papelillo.</div></div>
+    <div class="di"><div class="din">04</div><div class="dit">Staff & Budget</div><div class="did">Agree on staff roles, responsibilities, and how operational costs are allocated.</div></div>
+    <div class="di"><div class="din">05</div><div class="dit">Booking & Cancellation Policies</div><div class="did">Set minimum stays, deposit requirements, and cancellation terms per season.</div></div>
+    <div class="di"><div class="din">06</div><div class="dit">Reporting & Communication</div><div class="did">Frequency of updates, financial reporting format, and decision-making process.</div></div>
+  </div>
+</div>
+</section>
+
+<!-- SLIDE 10: CLOSING -->
+<section class="s" id="s9">
+<div>
+  <div class="gl"></div>
+  <h2 class="st">Let's build something<br>exceptional together.</h2>
+  <p class="ss" style="margin-top:16px">I'm ready to discuss the details and refine this proposal to fit what works best for Casa Papelillo.</p>
+  <div class="cc">
+    <div class="n">Diego</div>
+    <div class="e">Ready to connect — let's schedule a call.</div>
+  </div>
+</div>
+</section>
+
+<script>
+// Navigation dots
+const ss=document.querySelectorAll('.s'),nv=document.getElementById('nv');
+ss.forEach((_,i)=>{
+  const b=document.createElement('button');
+  b.setAttribute('aria-label','Slide '+(i+1));
+  b.onclick=()=>ss[i].scrollIntoView({behavior:'smooth'});
+  nv.appendChild(b);
+});
+const ds=nv.querySelectorAll('button');
+
+// Active dot tracking
+ss.forEach(s=>new IntersectionObserver(e=>{
+  if(e[0].isIntersecting){
+    const i=[...ss].indexOf(s);
+    ds.forEach((d,j)=>d.classList.toggle('a',j===i));
+  }
+},{threshold:.5}).observe(s));
+
+// Reveal on scroll
+document.querySelectorAll('.rv').forEach(r=>
+  new IntersectionObserver(e=>{
+    if(e[0].isIntersecting)r.classList.add('v');
+  },{threshold:.12}).observe(r)
+);
+</script>
+</body>
+</html>
